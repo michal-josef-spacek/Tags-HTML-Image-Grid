@@ -17,17 +17,30 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image_grid', 'title'], @params);
+		['css_image_grid', 'img_src_cb', 'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
 	# Form CSS style.
 	$self->{'css_image_grid'} = 'image-grid';
+
+	# Image src callback across data object.
+	$self->{'img_src_cb'} = undef;
+
+	# Image width in pixels.
+	$self->{'img_width'} = 340;
 
 	# Form title.
 	$self->{'title'} = undef;
 
 	# Process params.
 	set_params($self, @{$object_params_ar});
+
+	# Check callback code.
+	if (defined $self->{'img_src_cb'}
+		&& ref $self->{'img_src_cb'} ne 'CODE') {
+
+		err "Parameter 'img_src_cb' must be a code.";
+	}
 
 	# Object.
 	return $self;
@@ -40,6 +53,9 @@ sub _process {
 	$self->{'tags'}->put(
 		['b', 'div'],
 		['a', 'class', $self->{'css_image_grid'}],
+
+		['b', 'div'],
+		['a', 'class', $self->{'css_image_grid'}.'-inner'],
 	);
 	if (defined $self->{'title'}) {
 		$self->{'tags'}->put(
@@ -56,9 +72,15 @@ sub _process {
 				['a', 'class', 'item'],
 			);
 		}
+		my $image_url;
+		if (defined $self->{'img_src_cb'}) {
+			$image_url = $self->{'img_src_cb'}->($image->image);
+		} else {
+			$image_url = $image->image;
+		}
 		$self->{'tags'}->put(
 			['b', 'img'],
-			['a', 'src', $image->image],
+			['a', 'src', $image_url],
 			['e', 'img'],
 		);
 		if ($image->comment) {
@@ -79,6 +101,7 @@ sub _process {
 	}
 	$self->{'tags'}->put(
 		['e', 'div'],
+		['e', 'div'],
 	);
 
 	return;
@@ -88,19 +111,32 @@ sub _process_css {
 	my $self = shift;
 
 	$self->{'css'}->put(
+
+		# Grid center on page.
 		['s', '.'.$self->{'css_image_grid'}],
-		['d', 'display', 'grid'],
-		['d', 'grid-gap', '10px'],
-		['d', 'grid-template-columns', 'repeat(auto-fit, minmax(150px, 1fr))'],
+		['d', 'display', 'flex'],
+		['d', 'align-items', 'center'],
+		['d', 'justify-content', 'center'],
 		['e'],
 
+		# 4 columns in grid.
+		['s', '.'.$self->{'css_image_grid'}.'-inner'],
+		['d', 'display', 'grid'],
+		['d', 'grid-gap', '1px'],
+		['d', 'grid-template-columns', 'repeat(4, '.$self->{'img_width'}.'px)'],
+		['e'],
+
+		# Create rectangle.
 		['s', '.'.$self->{'css_image_grid'}.' img'],
-		['d', 'width', '100%'],
+		['d', 'object-fit', 'cover'],
+		['d', 'width', $self->{'img_width'}.'px'],
+		['d', 'height', $self->{'img_width'}.'px'],
 		['e'],
 
 		['s', '.'.$self->{'css_image_grid'}.' .item'],
 		['d', 'position', 'relative'],
 		['d', 'overflow', 'hidden'],
+		['d', 'border', '1px solid white'],
 		['e'],
 
 		['s', '.'.$self->{'css_image_grid'}.' .item img'],
