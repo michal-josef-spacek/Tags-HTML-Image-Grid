@@ -17,11 +17,15 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image_grid', 'img_src_cb', 'img_width', 'title'], @params);
+		['css_image_grid', 'img_link_cb', 'img_src_cb', 'img_width',
+		'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
 	# Form CSS style.
 	$self->{'css_image_grid'} = 'image-grid';
+
+	# Image link callback.
+	$self->{'img_link_cb'} = undef;
 
 	# Image src callback across data object.
 	$self->{'img_src_cb'} = undef;
@@ -66,6 +70,12 @@ sub _process {
 		);
 	}
 	foreach my $image (@{$images_ar}) {
+		if (defined $self->{'img_link_cb'}) {
+			$self->{'tags'}->put(
+				['b', 'a'],
+				['a', 'href', $self->{'img_link_cb'}->($image)],
+			);
+		}
 		if ($image->comment) {
 			$self->{'tags'}->put(
 				['b', 'div'],
@@ -74,7 +84,7 @@ sub _process {
 		}
 		my $image_url;
 		if (defined $self->{'img_src_cb'}) {
-			$image_url = $self->{'img_src_cb'}->($image->image);
+			$image_url = $self->{'img_src_cb'}->($image);
 		} else {
 			$image_url = $image->image;
 		}
@@ -91,6 +101,11 @@ sub _process {
 				['e', 'span'],
 
 				['e', 'div'],
+			);
+		}
+		if (defined $self->{'img_link_cb'}) {
+			$self->{'tags'}->put(
+				['e', 'a'],
 			);
 		}
 	}
