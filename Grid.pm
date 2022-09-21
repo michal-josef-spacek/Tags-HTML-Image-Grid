@@ -7,6 +7,7 @@ use warnings;
 use Class::Utils qw(set_params split_params);
 use Error::Pure qw(err);
 use List::MoreUtils qw(none);
+use Scalar::Util qw(blessed);
 use Unicode::UTF8 qw(decode_utf8);
 
 our $VERSION = 0.01;
@@ -50,9 +51,26 @@ sub new {
 	return $self;
 }
 
+sub _check_images {
+	my ($self, $images_ar) = @_;
+
+	foreach my $image (@{$images_ar}) {
+		if (! blessed($image)
+			# XXX Hardcoded object.
+			&& ! $image->isa('Data::Commons::Vote::Image')) {
+
+			err 'Bad data image object.';
+		}
+	}
+
+	return;
+}
+
 # Process 'Tags'.
 sub _process {
 	my ($self, $images_ar) = @_;
+
+	$self->_check_images($images_ar);
 
 	$self->{'tags'}->put(
 		['b', 'div'],
