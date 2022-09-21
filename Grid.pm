@@ -41,6 +41,7 @@ sub new {
 	set_params($self, @{$object_params_ar});
 
 	# Check callback codes.
+	$self->_check_callback('img_link_cb');
 	$self->_check_callback('img_src_cb');
 
 	# Object.
