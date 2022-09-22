@@ -103,12 +103,10 @@ sub _process {
 				['a', 'href', $self->{'img_link_cb'}->($image)],
 			);
 		}
-		if ($image->comment) {
-			$self->{'tags'}->put(
-				['b', 'div'],
-				['a', 'class', 'item'],
-			);
-		}
+		$self->{'tags'}->put(
+			['b', 'figure'],
+			['a', 'class', 'item'],
+		);
 		my $image_url;
 		if (defined $self->{'img_src_cb'}) {
 			$image_url = $self->{'img_src_cb'}->($image);
@@ -122,14 +120,15 @@ sub _process {
 		);
 		if ($image->comment) {
 			$self->{'tags'}->put(
-				['b', 'span'],
+				['b', 'figcaption'],
 				['a', 'class', 'caption'],
 				['d', $image->comment],
-				['e', 'span'],
-
-				['e', 'div'],
+				['e', 'figcaption'],
 			);
 		}
+		$self->{'tags'}->put(
+			['e', 'figure'],
+		);
 		if (defined $self->{'img_link_cb'}) {
 			$self->{'tags'}->put(
 				['e', 'a'],
@@ -169,6 +168,7 @@ sub _process_css {
 		['e'],
 
 		# Create rectangle.
+		['s', '.'.$self->{'css_image_grid'}.' figure'],
 		['s', '.'.$self->{'css_image_grid'}.' img'],
 		['d', 'object-fit', 'cover'],
 		['d', 'width', $self->{'img_width'}.'px'],
