@@ -105,7 +105,6 @@ sub _process {
 		}
 		$self->{'tags'}->put(
 			['b', 'figure'],
-			['a', 'class', 'item'],
 		);
 		my $image_url;
 		if (defined $self->{'img_src_cb'}) {
@@ -121,7 +120,6 @@ sub _process {
 		if ($image->comment) {
 			$self->{'tags'}->put(
 				['b', 'figcaption'],
-				['a', 'class', 'caption'],
 				['d', $image->comment],
 				['e', 'figcaption'],
 			);
@@ -169,23 +167,22 @@ sub _process_css {
 
 		# Create rectangle.
 		['s', '.'.$self->{'css_image_grid'}.' figure'],
-		['s', '.'.$self->{'css_image_grid'}.' img'],
 		['d', 'object-fit', 'cover'],
 		['d', 'width', $self->{'img_width'}.'px'],
 		['d', 'height', $self->{'img_width'}.'px'],
-		['e'],
-
-		['s', '.'.$self->{'css_image_grid'}.' .item'],
 		['d', 'position', 'relative'],
 		['d', 'overflow', 'hidden'],
 		['d', 'border', '1px solid white'],
 		['e'],
 
-		['s', '.'.$self->{'css_image_grid'}.' .item img'],
+		['s', '.'.$self->{'css_image_grid'}.' img'],
+		['d', 'object-fit', 'cover'],
+		['d', 'width', '100%'],
+		['d', 'height', '100%'],
 		['d', 'vertical-align', 'middle'],
 		['e'],
 
-		['s', '.'.$self->{'css_image_grid'}.' .caption'],
+		['s', '.'.$self->{'css_image_grid'}.' figcaption'],
 		['d', 'margin', 0],
 		['d', 'padding', '1em'],
 		['d', 'position', 'absolute'],
@@ -202,7 +199,7 @@ sub _process_css {
 		['d', 'color', 'rgb(255, 255, 255)'],
 		['e'],
 
-		['s', '.'.$self->{'css_image_grid'}.' .item:hover .caption'],
+		['s', '.'.$self->{'css_image_grid'}.' figure:hover figcaption'],
 		['d', 'transform', 'translateY(0%)'],
 		['e'],
 	);
