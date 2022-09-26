@@ -3,7 +3,8 @@ TODO
 1. Add pop-up text for image if exists.
 2. Hardcoded data object, which is no related to this module.
 3. Select image + callback
-5.
+5. *, *::after and *::before cleanup to elements in this object not all.
+6.
 
 Applied
 =======
