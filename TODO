@@ -2,7 +2,8 @@ TODO
 ====
 1. Add pop-up text for image if exists.
 2. Hardcoded data object, which is no related to this module.
-6.
+6. There is 2 pixels between rows. Fix it.
+7.
 
 Applied
 =======
