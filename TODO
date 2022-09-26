@@ -2,7 +2,6 @@ TODO
 ====
 1. Add pop-up text for image if exists.
 2. Hardcoded data object, which is no related to this module.
-3. Select image + callback
 5. *, *::after and *::before cleanup to elements in this object not all.
 6.
 
@@ -11,3 +10,6 @@ Applied
 4. Rewrite to <figure> and <figcaption>
 https://www.w3schools.com/tags/tag_figure.asp
 OK [20220922] skim
+
+3. Select image + callback
+OK [20220926] skim

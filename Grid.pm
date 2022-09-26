@@ -18,8 +18,8 @@ sub new {
 
 	# Create object.
 	my ($object_params_ar, $other_params_ar) = split_params(
-		['css_image_grid', 'img_link_cb', 'img_src_cb', 'img_width',
-		'title'], @params);
+		['css_image_grid', 'img_link_cb', 'img_select_cb', 'img_src_cb',
+		'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
 	# Form CSS style.
@@ -27,6 +27,9 @@ sub new {
 
 	# Image link callback.
 	$self->{'img_link_cb'} = undef;
+
+	# Image select callback.
+	$self->{'img_select_cb'} = undef;
 
 	# Image src callback across data object.
 	$self->{'img_src_cb'} = undef;
@@ -42,6 +45,7 @@ sub new {
 
 	# Check callback codes.
 	$self->_check_callback('img_link_cb');
+	$self->_check_callback('img_select_cb');
 	$self->_check_callback('img_src_cb');
 
 	# Object.
@@ -112,6 +116,16 @@ sub _process {
 		} else {
 			$image_url = $image->image;
 		}
+
+		if (defined $self->{'img_select_cb'} && $self->{'img_select_cb'}->($self, $image)) {
+			$self->{'tags'}->put(
+				['b', 'i'],
+				['a', 'class', 'selected'],
+				['d', $self->{'img_select_cb'}->($self, $image)],
+				['e', 'i'],
+			);
+		}
+
 		$self->{'tags'}->put(
 			['b', 'img'],
 			['a', 'src', $image_url],
@@ -209,6 +223,17 @@ sub _process_css {
 
 		['s', '.'.$self->{'css_image_grid'}.' figure:hover figcaption'],
 		['d', 'transform', 'translateY(0%)'],
+		['e'],
+
+		['s', '.'.$self->{'css_image_grid'}.' .selected'],
+		['d', 'background-color', 'lightgreen'],
+		['d', 'border', '1px solid black'],
+		['d', 'border-radius', '0.5em'],
+		['d', 'color', 'black'],
+		['d', 'padding', '0.5em'],
+		['d', 'position', 'absolute'],
+		['d', 'right', '10px'],
+		['d', 'top', '10px'],
 		['e'],
 	);
 
