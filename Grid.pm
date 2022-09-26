@@ -165,14 +165,6 @@ sub _process_css {
 
 	$self->{'css'}->put(
 
-		['s', '*'],
-		['s', '*::after'],
-		['s', '*::before'],
-		['d', 'margin', 0],
-		['d', 'padding', 0],
-		['d', 'box-sizing', 'inherit'],
-		['e'],
-
 		# Grid center on page.
 		['s', '.'.$self->{'css_image_grid'}],
 		['d', 'display', 'flex'],
@@ -195,6 +187,8 @@ sub _process_css {
 		['d', 'position', 'relative'],
 		['d', 'overflow', 'hidden'],
 		['d', 'border', '1px solid white'],
+		['d', 'margin', 0],
+		['d', 'padding', 0],
 		['e'],
 
 		['s', '.'.$self->{'css_image_grid'}.' img'],
