@@ -117,13 +117,20 @@ sub _process {
 			$image_url = $image->image;
 		}
 
-		if (defined $self->{'img_select_cb'} && $self->{'img_select_cb'}->($self, $image)) {
-			$self->{'tags'}->put(
-				['b', 'i'],
-				['a', 'class', 'selected'],
-				['d', $self->{'img_select_cb'}->($self, $image)],
-				['e', 'i'],
-			);
+		if (defined $self->{'img_select_cb'}) {
+			my $select_hr = $self->{'img_select_cb'}->($self, $image);
+			if (ref $select_hr eq 'HASH' && $select_hr->{'value'}) {
+				$select_hr->{'css_background_color'} ||= 'lightgreen';
+				$self->{'tags'}->put(
+					['b', 'i'],
+					['a', 'class', 'selected'],
+					['a', 'style', 'background-color: '.$select_hr->{'css_background_color'}.';'],
+					exists $select_hr->{'value'} ? (
+						['d', $select_hr->{'value'}],
+					) : (),
+					['e', 'i'],
+				);
+			}
 		}
 
 		$self->{'tags'}->put(
@@ -220,7 +227,6 @@ sub _process_css {
 		['e'],
 
 		['s', '.'.$self->{'css_image_grid'}.' .selected'],
-		['d', 'background-color', 'lightgreen'],
 		['d', 'border', '1px solid black'],
 		['d', 'border-radius', '0.5em'],
 		['d', 'color', 'black'],
