@@ -111,10 +111,14 @@ sub _process {
 			['b', 'figure'],
 		);
 		my $image_url;
-		if (defined $self->{'img_src_cb'}) {
+		if (defined $image->url) {
+			$image_url = $image->url;
+		} elsif (defined $image->url_cb) {
+			$image_url = $image->url_cb->($image);
+		} elsif (defined $self->{'img_src_cb'}) {
 			$image_url = $self->{'img_src_cb'}->($image);
 		} else {
-			$image_url = $image->image;
+			err 'No image URL.';
 		}
 
 		if (defined $self->{'img_select_cb'}) {
