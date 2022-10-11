@@ -1,7 +1,6 @@
 TODO
 ====
 1. Add pop-up text for image if exists.
-2. Hardcoded data object, which is no related to this module.
 6. There is 2 pixels between rows. Fix it.
 7.
 
@@ -16,3 +15,6 @@ OK [20220926] skim
 
 5. *, *::after and *::before cleanup to elements in this object not all.
 OK [20220926] skim
+
+2. Hardcoded data object, which is no related to this module.
+OK [20221011] skim
