@@ -68,9 +68,7 @@ sub _check_images {
 	my ($self, $images_ar) = @_;
 
 	foreach my $image (@{$images_ar}) {
-		if (! blessed($image)
-			# XXX Hardcoded object.
-			&& ! $image->isa('Data::Commons::Vote::Image')) {
+		if (! blessed($image) && ! $image->isa('Data::Image')) {
 
 			err 'Bad data image object.';
 		}
