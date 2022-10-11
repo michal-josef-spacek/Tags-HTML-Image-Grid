@@ -37,7 +37,7 @@ sub new {
 	# Image width in pixels.
 	$self->{'img_width'} = 340;
 
-	# Form title.
+	# Image grid title.
 	$self->{'title'} = undef;
 
 	# Process params.
