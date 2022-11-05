@@ -121,7 +121,7 @@ sub _process {
 
 		if (defined $self->{'img_select_cb'}) {
 			my $select_hr = $self->{'img_select_cb'}->($self, $image);
-			if (ref $select_hr eq 'HASH' && $select_hr->{'value'}) {
+			if (ref $select_hr eq 'HASH' && exists $select_hr->{'value'}) {
 				$select_hr->{'css_background_color'} ||= 'lightgreen';
 				$self->{'tags'}->put(
 					['b', 'i'],
