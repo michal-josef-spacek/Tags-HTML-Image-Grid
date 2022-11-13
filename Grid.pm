@@ -140,7 +140,7 @@ sub _process {
 			['a', 'src', $image_url],
 			['e', 'img'],
 		);
-		if ($image->comment) {
+		if (defined $image->comment) {
 			$self->{'tags'}->put(
 				['b', 'figcaption'],
 				['d', $image->comment],
