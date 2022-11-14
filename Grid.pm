@@ -99,26 +99,21 @@ sub _process {
 		);
 	}
 	foreach my $image (@{$images_ar}) {
+
+		# Begin of image link.
 		if (defined $self->{'img_link_cb'}) {
 			$self->{'tags'}->put(
 				['b', 'a'],
 				['a', 'href', $self->{'img_link_cb'}->($image)],
 			);
 		}
+
+		# Begin of figure.
 		$self->{'tags'}->put(
 			['b', 'figure'],
 		);
-		my $image_url;
-		if (defined $image->url) {
-			$image_url = $image->url;
-		} elsif (defined $image->url_cb) {
-			$image_url = $image->url_cb->($image);
-		} elsif (defined $self->{'img_src_cb'}) {
-			$image_url = $self->{'img_src_cb'}->($image);
-		} else {
-			err 'No image URL.';
-		}
 
+		# Select information.
 		if (defined $self->{'img_select_cb'}) {
 			my $select_hr = $self->{'img_select_cb'}->($self, $image);
 			if (ref $select_hr eq 'HASH' && exists $select_hr->{'value'}) {
@@ -135,11 +130,24 @@ sub _process {
 			}
 		}
 
+		# Image.
+		my $image_url;
+		if (defined $image->url) {
+			$image_url = $image->url;
+		} elsif (defined $image->url_cb) {
+			$image_url = $image->url_cb->($image);
+		} elsif (defined $self->{'img_src_cb'}) {
+			$image_url = $self->{'img_src_cb'}->($image);
+		} else {
+			err 'No image URL.';
+		}
 		$self->{'tags'}->put(
 			['b', 'img'],
 			['a', 'src', $image_url],
 			['e', 'img'],
 		);
+
+		# Image comment.
 		if (defined $image->comment) {
 			$self->{'tags'}->put(
 				['b', 'figcaption'],
@@ -147,9 +155,13 @@ sub _process {
 				['e', 'figcaption'],
 			);
 		}
+
+		# Enf of figure.
 		$self->{'tags'}->put(
 			['e', 'figure'],
 		);
+
+		# End of image link.
 		if (defined $self->{'img_link_cb'}) {
 			$self->{'tags'}->put(
 				['e', 'a'],
