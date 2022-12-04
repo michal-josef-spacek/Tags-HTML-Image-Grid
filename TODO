@@ -1,7 +1,6 @@
 TODO
 ====
 1. Add pop-up text for image if exists.
-6. There is 2 pixels between rows. Fix it.
 7. Tests for border.
 8. Examples for border.
 9.
@@ -20,3 +19,6 @@ OK [20220926] skim
 
 2. Hardcoded data object, which is no related to this module.
 OK [20221011] skim
+
+6. There is 2 pixels between rows. Fix it.
+OK [20221204] skim
