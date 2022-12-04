@@ -207,7 +207,6 @@ sub _process_css {
 		['d', 'height', $self->{'img_width'}.'px'],
 		['d', 'position', 'relative'],
 		['d', 'overflow', 'hidden'],
-		['d', 'border', '1px solid white'],
 		['d', 'margin', 0],
 		['d', 'padding', 0],
 		['e'],
