@@ -1,6 +1,5 @@
 TODO
 ====
-1. Add pop-up text for image if exists.
 7. Tests for border.
 8. Examples for border.
 9.
@@ -21,4 +20,7 @@ OK [20220926] skim
 OK [20221011] skim
 
 6. There is 2 pixels between rows. Fix it.
+OK [20221204] skim
+
+1. Add pop-up text for image if exists.
 OK [20221204] skim
