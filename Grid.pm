@@ -22,7 +22,7 @@ sub new {
 		'img_select_cb', 'img_src_cb', 'img_width', 'title'], @params);
 	my $self = $class->SUPER::new(@{$other_params_ar});
 
-	# Form CSS style.
+	# CSS style for image grid.
 	$self->{'css_image_grid'} = 'image-grid';
 
 	# Image border color callback.
